@@ -42,13 +42,18 @@
                     android:textStyle="bold" />
                 <Button
                     android:id="@+id/btn_details"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="225dp"
+                    android:layout_height="45dp"
+                    android:background="#008577"
+                    android:textColor="#ffff"
                     android:text="details"/>
                 <Button
                     android:id="@+id/btn_delete"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="225dp"
+                    android:layout_height="45dp"
+                    android:background="#008577"
+                    android:textColor="#ffff"
+                    android:layout_marginTop="5dp"
                     android:text="delete"/>
             </LinearLayout>
         </LinearLayout>

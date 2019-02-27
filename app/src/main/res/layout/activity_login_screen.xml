@@ -25,6 +25,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#008577"
+        android:textColor="#ffff"
         android:id="@+id/btnlogin"
         android:text="login"
         android:visibility="visible"/>

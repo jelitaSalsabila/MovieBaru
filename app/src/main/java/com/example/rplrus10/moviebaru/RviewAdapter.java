@@ -20,6 +20,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -33,7 +34,6 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
 
     private ArrayList<movie> movieArrayList;
     Context context;
-    int index;
 
     public RviewAdapter(Context context, ArrayList<movie> movieArrayList) {
         this.context = context;
@@ -75,25 +75,24 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
         holder.btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final int post = position;
-                    AlertDialog.Builder builder = new AlertDialog.Builder(
-                            context);
-                    builder.setTitle("Delete");
-                    builder.setCancelable(true);
-                    builder.setMessage("are you sure to delete this item?");
-                    builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int i) {
-                            final movie movie = movieArrayList.get(post);
-                            final int id = movie.getIdMovie();
-                            Deletedata(id);
-                            Log.d("jelita", "onClick: " + id);
-                            Toast.makeText(context, "" + movieArrayList.get(post).getIdMovie(), Toast.LENGTH_SHORT).show();
-                            movieArrayList.remove(post);
-                            notifyItemRemoved(post);
-                            notifyItemRangeChanged(post, movieArrayList.size());
-                            dialog.dismiss();
-                        }
-                    });
+                AlertDialog.Builder builder = new AlertDialog.Builder(
+                        context);
+                builder.setTitle("Delete");
+                builder.setCancelable(true);
+                builder.setMessage("are you sure to delete this item?");
+                builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int i) {
+                        final movie movie = movieArrayList.get(position);
+
+                        String url = "http://192.168.6.227/file/delete.php?idMovie=" + movieArrayList.get(position).getIdMovie();
+                        System.out.println("url ku " + url);
+                        new deleteData(url).execute();
+                        movieArrayList.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, movieArrayList.size());
+                        dialog.dismiss();
+                    }
+                });
                 builder.setNegativeButton("no", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int i) {
@@ -111,65 +110,66 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
         return movieArrayList.size();
     }
 
-    private void Deletedata(final int idMovie) {
+    class deleteData extends AsyncTask<Void, Void, JSONObject> {
 
-        @SuppressLint("StaticFieldLeak")
-         class deleteData extends AsyncTask<Void, Void, JSONObject> {
+        public String url;
 
-            @Override
-            protected void onPreExecute() {
-                //kasih loading
+        public deleteData(String url) {
+            this.url = url;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            //kasih loading
+        }
+
+        @Override
+        protected JSONObject doInBackground(Void... params) {
+            JSONObject jsonObject;
+
+            try {
+                DefaultHttpClient httpClient = new DefaultHttpClient();
+                HttpGet httpGet = new HttpGet(url);
+                HttpResponse httpResponse = httpClient.execute(httpGet);
+                HttpEntity httpEntity = httpResponse.getEntity();
+                InputStream inputStream = httpEntity.getContent();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(
+                        inputStream, "iso-8859-1"
+                ), 8);
+                StringBuilder stringBuilder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stringBuilder.append(line).append("\n");
+                }
+                inputStream.close();
+                String json = stringBuilder.toString();
+                System.out.println("json error : " + json);
+                jsonObject = new JSONObject(json);
+            } catch (Exception e) {
+                jsonObject = null;
             }
+            return jsonObject;
+        }
 
-            @Override
-            protected JSONObject doInBackground(Void... params) {
-                JSONObject jsonObject;
-
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            if (jsonObject != null) {
                 try {
-                    String url = "http://192.168.6.230/file/delete.php?idMovie=" + movieArrayList.get(index).getIdMovie();
-                    System.out.println("url ku " + url);
-                    DefaultHttpClient httpClient = new DefaultHttpClient();
-                    HttpGet httpGet = new HttpGet(url);
-                    HttpResponse httpResponse = httpClient.execute(httpGet);
-                    HttpEntity httpEntity = httpResponse.getEntity();
-                    InputStream inputStream = httpEntity.getContent();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(
-                            inputStream, "iso-8859-1"
-                    ), 8);
-                    StringBuilder stringBuilder = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        stringBuilder.append(line).append("\n");
+                    JSONObject Result = jsonObject.getJSONObject("Result");
+                    String sukses = Result.getString("Sukses");
+                    Log.d("hasil sukses ", "onPostExecute: " + sukses);
+                    if (sukses.equals("true")) {
+                        Toast.makeText(context, "Delete sukses", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Delete gagal", Toast.LENGTH_SHORT).show();
                     }
-                    inputStream.close();
-                    String json = stringBuilder.toString();
-                    System.out.println("json error : " + json);
-                    jsonObject = new JSONObject(json);
-                } catch (Exception e) {
-                    jsonObject = null;
+
+                } catch (Exception ignored) {
+                    System.out.println("erornya " + ignored);
                 }
-                return jsonObject;
-            }
-            @Override
-            protected void onPostExecute(JSONObject jsonObject) {
-                if (jsonObject != null) {
-                    try {
-                        JSONObject Result = jsonObject.getJSONObject("Result");
-                        String sukses = Result.getString("Sukses");
-                        Log.d("hasil sukses ", "onPostExecute: " + sukses);
-                        if (sukses.equals("true")) {
-                            Toast.makeText(context, "Delete sukses", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(context, "Delete gagal", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (Exception ignored) {
-                        System.out.println("erornya " + ignored);
-                    }
-                } else {
-                }
+            } else {
             }
         }
-        deleteData us = new deleteData();
-        us.execute();
     }
+
 }

@@ -67,7 +67,7 @@ public class LoginScreen extends AppCompatActivity {
             JSONObject jsonObject;
 
             try {
-                String url = "http://192.168.6.230/file/login.php?username="+user.getUsername()+"&password="+user.getPassword();
+                String url = "http://192.168.6.227/file/login.php?username="+user.getUsername()+"&password="+user.getPassword();
                 System.out.println("url ku " + url);
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 HttpGet httpGet = new HttpGet(url);
