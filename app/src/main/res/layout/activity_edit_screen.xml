@@ -10,8 +10,7 @@
     <TextView
         android:id="@+id/txtUserID"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/editNama"
@@ -43,11 +42,14 @@
         android:padding="10dp"
         android:hint="relsease date" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <Button
         android:id="@+id/btnsave"
-        android:layout_width="250dp"
+        android:layout_width="200dp"
         android:layout_height="45dp"
-        android:background="#008577"
+        android:background="#f9cc1313"
         android:textColor="#ffff"
         android:layout_gravity="center"
         android:visibility="visible"
@@ -60,5 +62,6 @@
         android:layout_gravity="center"
         android:max="100"
         android:visibility="invisible"/>
+    </FrameLayout>
 
 </LinearLayout>

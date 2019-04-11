@@ -78,7 +78,7 @@ public class EditScreen extends AppCompatActivity {
                 String tmpoverview= ubah.getOverview().replaceAll(" ", "%20");
                 String tmpreleasedate= ubah.getReleasedate().replaceAll(" ", "%20");
 
-                String url = "http://192.168.6.227/file/update.php?title="+ tmptitle +"&overview="+tmpoverview+"&releasedate="+tmpreleasedate+"&idMovie="+idMovie+"";
+                String url = "http://192.168.6.79/file/update.php?title="+ tmptitle +"&overview="+tmpoverview+"&releasedate="+tmpreleasedate+"&idMovie="+idMovie+"";
                 System.out.println("url ku " +url);
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 HttpGet httpGet = new HttpGet(url);

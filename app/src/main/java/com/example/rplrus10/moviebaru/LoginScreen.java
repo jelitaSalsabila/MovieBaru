@@ -37,6 +37,7 @@ public class LoginScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
+        setTitle("");
         btnlogin = findViewById(R.id.btnlogin);
         txtpass = findViewById(R.id.txtpass);
         loading = findViewById(R.id.loading);
@@ -67,7 +68,7 @@ public class LoginScreen extends AppCompatActivity {
             JSONObject jsonObject;
 
             try {
-                String url = "http://192.168.6.227/file/login.php?username="+user.getUsername()+"&password="+user.getPassword();
+                String url = "http://192.168.6.79/file/login.php?username="+user.getUsername()+"&password="+user.getPassword();
                 System.out.println("url ku " + url);
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 HttpGet httpGet = new HttpGet(url);

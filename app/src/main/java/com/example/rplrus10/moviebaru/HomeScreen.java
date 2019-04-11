@@ -58,7 +58,7 @@ public class HomeScreen extends AppCompatActivity {
             JSONObject jsonObject;
 
             try {
-                String url = "http://192.168.6.227/file/get.php";
+                String url = "http://192.168.6.79/file/get.php";
                 System.out.println("url ku " +url);
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 HttpGet httpGet = new HttpGet(url);

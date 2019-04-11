@@ -84,7 +84,7 @@ public class RviewAdapter extends RecyclerView.Adapter<RviewHolder> {
                     public void onClick(DialogInterface dialog, int i) {
                         final movie movie = movieArrayList.get(position);
 
-                        String url = "http://192.168.6.227/file/delete.php?idMovie=" + movieArrayList.get(position).getIdMovie();
+                        String url = "http://192.168.6.79/file/delete.php?idMovie=" + movieArrayList.get(position).getIdMovie();
                         System.out.println("url ku " + url);
                         new deleteData(url).execute();
                         movieArrayList.remove(position);

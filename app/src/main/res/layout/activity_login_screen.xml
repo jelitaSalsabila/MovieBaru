@@ -5,36 +5,75 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:background="#e3eb1837"
     tools:context=".LoginScreen">
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtuser"
-        android:hint="username"/>
+        android:text="Login.com"
+        android:textStyle="italic"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:textSize="50dp"
+        android:fontFamily="cursive"
+        android:layout_marginTop="40dp"/>
 
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/txtpass"
-        android:hint="password"/>
+        android:orientation="vertical"
+        android:layout_marginTop="40dp">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#008577"
-        android:textColor="#ffff"
-        android:id="@+id/btnlogin"
-        android:text="login"
-        android:visibility="visible"/>
-        <ProgressBar
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="invisible"
-            android:id="@+id/loading"/>
-    </FrameLayout>
+            android:id="@+id/txtuser"
+            android:textColor="#fff"
+            android:textColorHint="@color/colorHint"
+            android:hint="username"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:textColorHint="@color/colorHint"
+            android:inputType="textPassword"
+            android:id="@+id/txtpass"
+            android:hint="password"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:padding="12dp"
+                android:background="#f9cc1313"
+                android:textColor="#ffff"
+                android:id="@+id/btnlogin"
+                android:text="login"
+                android:visibility="visible"/>
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                android:id="@+id/loading"/>
+        </FrameLayout>
+        <TextView
+            android:id="@+id/link_signup"
+            android:textColor="#fffdfd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="No account yet? Create one"
+            android:gravity="center"
+            android:textSize="16dip"/>
+    </LinearLayout>
+
+
 </LinearLayout>
